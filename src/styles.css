@@ -1,0 +1,33 @@
+@font-face {
+    font-family: penguinAttack;
+    src: url('./fonts/PenguinAttack.ttf');
+}
+
+#header {
+    font-size: 4em;
+    font-family: 'penguinAttack';
+    text-align: center;
+}
+
+#site-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+div#about {
+    text-align: right;
+}
+
+dialog#about-dialog {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 33%;
+    height: 33%;
+    overflow: hidden;
+}
+
+dialog#about-dialog[open='open'] {
+    display: block;
+}

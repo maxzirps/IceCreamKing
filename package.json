@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "start": "http-server src",
-    "dev": "nodemon 'http-server src' --watch src -e js,html"
+    "dev": "nodemon 'http-server src' --watch src -e js,html,css"
   },
   "dependencies": {
     "http-server": "^0.12.1"

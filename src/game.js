@@ -1,15 +1,25 @@
 /* global Phaser */
 
 
-// FIXME: fix security issues
-
-
 let player
+let score = 0;
+let scoreText;
+
+function collectIceCream(player, iceCream) {
+    iceCream.disableBody(true, true);
+    score += 1;
+    scoreText.setText(`Score: ${score}`);
+}
+
+function removeIceCream(platform, iceCream) {
+    iceCream.disableBody(true, true);
+}
 
 function preload() {
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/ground.png');
-    this.load.spritesheet('dude', 'assets/boy.png', { frameWidth: 308, frameHeight: 412 });
+    this.load.image('ice-cream', 'assets/ice-cream.png')
+    this.load.spritesheet('boy', 'assets/boy.png', { frameWidth: 123, frameHeight: 165 });
 }
 
 function create() {
@@ -19,8 +29,26 @@ function create() {
     platforms.create(231, 735, 'ground');
     platforms.create(231 * 2, 735, 'ground');
     platforms.create(231 * 3, 735, 'ground');
-    platforms.create(231 * 4, 735, 'ground')    ;
-    player = this.physics.add.sprite(100, 500, 'dude').setScale(0.3);
+    platforms.create(231 * 4, 735, 'ground');
+
+
+
+    const iceCreams = this.physics.add.group();
+
+    this.time.addEvent({
+        delay: 800,
+        callback: () => {
+            const rand = Math.random() * (950 - 40) + 40;
+
+            iceCreams.create(rand, 0, 'ice-cream');
+        },
+        loop: true
+    })
+
+    this.physics.add.collider(platforms, iceCreams, removeIceCream, null, this);
+
+
+    player = this.physics.add.sprite(100, 590, 'boy');
     this.physics.add.collider(player, platforms);
 
     player.setBounce(0.2);
@@ -28,35 +56,51 @@ function create() {
 
     this.anims.create({
         key: 'left',
-        frames: this.anims.generateFrameNumbers('dude', { start: 3, end: 5 }),
+        frames: this.anims.generateFrameNumbers('boy', { start: 3, end: 5 }),
         frameRate: 10,
         repeat: -1
     });
 
     this.anims.create({
         key: 'turn',
-        frames: [{ key: 'dude', frame: 0 }],
+        frames: [{ key: 'boy', frame: 0 }],
         frameRate: 20
     });
 
     this.anims.create({
         key: 'right',
-        frames: this.anims.generateFrameNumbers('dude', { start: 3, end: 5 }),
+        frames: this.anims.generateFrameNumbers('boy', { start: 3, end: 5 }),
         frameRate: 10,
         repeat: -1,
     });
+    this.physics.add.overlap(player, iceCreams, collectIceCream, null, this);
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
 }
 
 function update() {
     const cursors = this.input.keyboard.createCursorKeys();
+    const pointer = this.input.activePointer;
+    let mobileTouchPosition = ""
+    if (pointer.isDown) {
+        const touchX = pointer.x;
+        if (touchX > 500){
+            mobileTouchPosition = "right"
+        } else {
+            mobileTouchPosition = "left"
+        }
+    }
 
-    if (cursors.left.isDown) {
+    this.input.on('pointerup', () => {
+        mobileTouchPosition = ""
+    });
+
+    if (cursors.left.isDown || mobileTouchPosition === "left") {
         player.setVelocityX(-160);
         player.setFlip(true, false)
         player.anims.play('left', true);
     }
-    else if (cursors.right.isDown) {
+    else if (cursors.right.isDown || mobileTouchPosition === "right") {
         player.setVelocityX(160);
         player.setFlip(false, false)
         player.anims.play('right', true);
@@ -66,7 +110,7 @@ function update() {
 
         player.anims.play('turn');
     }
- 
+
 }
 
 const config = {
@@ -78,7 +122,7 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: true
+            debug: false
         }
     },
     scene: {
@@ -89,4 +133,3 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-
