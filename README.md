@@ -17,7 +17,7 @@ A simple game done in phaser, where you play a little boy who wants to catch as 
 
 
 ## License
-MIT
+GPLv3
 
 ## Credits
 [Sky](https://opengameart.org/content/sky-backdrop)
