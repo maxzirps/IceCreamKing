@@ -1,48 +1,88 @@
 /* global Phaser */
 
-function preload() {
-    this.load.setBaseURL('http://labs.phaser.io');
+let player
 
-    this.load.image('sky', 'assets/skies/space3.png');
-    this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-    this.load.image('red', 'assets/particles/red.png');
+function preload() {
+    this.load.image('sky', 'assets/sky.png');
+    this.load.image('ground', 'assets/ground.png');
+    this.load.spritesheet('dude', 'assets/boy.png', { frameWidth: 308, frameHeight: 412 });
 }
 
 function create() {
-    this.add.image(400, 300, 'sky');
+    this.add.image(500, 400, 'sky');
+    const platforms = this.physics.add.staticGroup();
+    platforms.create(0, 735, 'ground');
+    platforms.create(231, 735, 'ground');
+    platforms.create(231 * 2, 735, 'ground');
+    platforms.create(231 * 3, 735, 'ground');
+    platforms.create(231 * 4, 735, 'ground')    ;
+    player = this.physics.add.sprite(100, 500, 'dude').setScale(0.3);
+    this.physics.add.collider(player, platforms);
 
-    const particles = this.add.particles('red');
+    player.setBounce(0.2);
+    player.setCollideWorldBounds(true);
 
-    const emitter = particles.createEmitter({
-        speed: 100,
-        scale: { start: 1, end: 0 },
-        blendMode: 'ADD'
+    this.anims.create({
+        key: 'left',
+        frames: this.anims.generateFrameNumbers('dude', { start: 3, end: 5 }),
+        frameRate: 10,
+        repeat: -1
     });
 
-    const logo = this.physics.add.image(400, 100, 'logo');
+    this.anims.create({
+        key: 'turn',
+        frames: [{ key: 'dude', frame: 0 }],
+        frameRate: 20
+    });
 
-    logo.setVelocity(100, 200);
-    logo.setBounce(1, 1);
-    logo.setCollideWorldBounds(true);
+    this.anims.create({
+        key: 'right',
+        frames: this.anims.generateFrameNumbers('dude', { start: 3, end: 5 }),
+        frameRate: 10,
+        repeat: -1,
+    });
 
-    emitter.startFollow(logo);
+}
+
+function update() {
+    const cursors = this.input.keyboard.createCursorKeys();
+
+    if (cursors.left.isDown) {
+        player.setVelocityX(-160);
+        player.setFlip(true, false)
+        player.anims.play('left', true);
+    }
+    else if (cursors.right.isDown) {
+        player.setVelocityX(160);
+        player.setFlip(false, false)
+        player.anims.play('right', true);
+    }
+    else {
+        player.setVelocityX(0);
+
+        player.anims.play('turn');
+    }
+ 
 }
 
 const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1000,
+    height: 800,
     parent: 'phaser-hook',
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 200 }
+            gravity: { y: 300 },
+            debug: true
         }
     },
     scene: {
         preload,
-        create
+        create,
+        update
     }
 };
 
 const game = new Phaser.Game(config);
+
