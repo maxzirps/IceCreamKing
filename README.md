@@ -21,6 +21,6 @@ GPLv3
 
 ## Credits
 [Sky](https://opengameart.org/content/sky-backdrop)
-[Ground](https://opengameart.org/content/handpainted-platform-tileset)
+[Ground](http://www.ludicarts.com/free-game-platform-tileset/)
 [Boy](https://opengameart.org/content/bevouliin-free-game-sprites-crocodile-mascot-running-and-jumping-boy-game-character)
 [Font](https://www.1001fonts.com/penguin-attack-font.html)
