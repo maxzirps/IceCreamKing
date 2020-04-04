@@ -1,5 +1,9 @@
 /* global Phaser */
 
+
+// FIXME: fix security issues
+
+
 let player
 
 function preload() {
