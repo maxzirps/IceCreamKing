@@ -1,33 +1,19 @@
 @font-face {
-    font-family: penguinAttack;
-    src: url('./fonts/PenguinAttack.ttf');
+    font-family: actionj;
+    src: url('./fonts/actionj.ttf');
 }
 
 #header {
     font-size: 4em;
-    font-family: 'penguinAttack';
+    font-family: 'actionj';
     text-align: center;
 }
 
-#site-wrapper {
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-div#about {
-    text-align: right;
-}
-
-dialog#about-dialog {
-    display: none;
+#phaser-hook {
+    max-height: 100%;
     position: fixed;
-    z-index: 1;
+    top: 0;
     left: 0;
-    top: 33%;
-    height: 33%;
-    overflow: hidden;
-}
-
-dialog#about-dialog[open='open'] {
-    display: block;
+    right: 0;
+    bottom: 0;
 }

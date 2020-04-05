@@ -16,31 +16,41 @@ function removeIceCream(platform, iceCream) {
 }
 
 function preload() {
-    this.load.image('sky', 'assets/sky.png');
+    this.load.image('background', 'assets/background.png');
+    this.load.image('dandelion', 'assets/dandelion.png');
+    this.load.image('weed', 'assets/weed.png');
     this.load.image('ground', 'assets/ground.png');
     this.load.image('ice-cream', 'assets/ice-cream.png')
     this.load.spritesheet('boy', 'assets/boy.png', { frameWidth: 123, frameHeight: 165 });
 }
 
 function create() {
-    this.add.image(500, 400, 'sky');
-    const platforms = this.physics.add.staticGroup();
-    platforms.create(0, 735, 'ground');
-    platforms.create(231, 735, 'ground');
-    platforms.create(231 * 2, 735, 'ground');
-    platforms.create(231 * 3, 735, 'ground');
-    platforms.create(231 * 4, 735, 'ground');
+    const scaleRatio = window.devicePixelRatio / 2;
+    const floorHeight = this.game.scale.height
+    const image = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'background')
+    const scaleX = this.cameras.main.width / image.width
+    const scaleY = this.cameras.main.height / image.height
+    const scale = Math.max(scaleX, scaleY)
+    image.setScale(scale).setScrollFactor(0)
 
+    const platforms = this.physics.add.staticGroup();
+    const realPlatformWidth = 213 * scaleRatio;
+    const realPlatformHeight = 128 * scaleRatio;
+    for (let i = 0; (i - 1) * realPlatformWidth < window.innerWidth; i += 1) {
+    platforms.create(realPlatformWidth * i, floorHeight - realPlatformHeight/2, 'ground').setScale(scaleRatio).refreshBody();
+    }
+    this.add.image(this.game.scale.width / 1.2, floorHeight-128, 'weed').setScale(scaleRatio)
+    this.add.image(this.game.scale.width / 4.2, floorHeight-128, 'dandelion').setScale(scaleRatio)
 
 
     const iceCreams = this.physics.add.group();
 
     this.time.addEvent({
-        delay: 800,
+        delay: 1000,
         callback: () => {
-            const rand = Math.random() * (950 - 40) + 40;
+            const rand = Math.random() * (window.innerWidth);
 
-            iceCreams.create(rand, 0, 'ice-cream');
+            iceCreams.create(rand, 0, 'ice-cream').setScale(scaleRatio);
         },
         loop: true
     })
@@ -48,7 +58,7 @@ function create() {
     this.physics.add.collider(platforms, iceCreams, removeIceCream, null, this);
 
 
-    player = this.physics.add.sprite(100, 590, 'boy');
+    player = this.physics.add.sprite(100, floorHeight-128, 'boy').setScale(scaleRatio);
     this.physics.add.collider(player, platforms);
 
     player.setBounce(0.2);
@@ -76,15 +86,17 @@ function create() {
     this.physics.add.overlap(player, iceCreams, collectIceCream, null, this);
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
+    // this.scale.on('resize', resize, this);
 }
 
 function update() {
     const cursors = this.input.keyboard.createCursorKeys();
     const pointer = this.input.activePointer;
+    const velocity = Math.max(150, window.innerWidth / 7)
     let mobileTouchPosition = ""
     if (pointer.isDown) {
         const touchX = pointer.x;
-        if (touchX > 500){
+        if (touchX > 500) {
             mobileTouchPosition = "right"
         } else {
             mobileTouchPosition = "left"
@@ -96,12 +108,12 @@ function update() {
     });
 
     if (cursors.left.isDown || mobileTouchPosition === "left") {
-        player.setVelocityX(-160);
+        player.setVelocityX(-velocity);
         player.setFlip(true, false)
         player.anims.play('left', true);
     }
     else if (cursors.right.isDown || mobileTouchPosition === "right") {
-        player.setVelocityX(160);
+        player.setVelocityX(velocity);
         player.setFlip(false, false)
         player.anims.play('right', true);
     }
@@ -113,10 +125,23 @@ function update() {
 
 }
 
+// function resize(gameSize, baseSize, displaySize, resolution) {
+//     const { width } = gameSize;
+//     const { height } = gameSize;
+
+//     this.cameras.resize(width, height);
+
+//     this.bg.setSize(width, height);
+//     this.logo.setPosition(width / 2, height / 2);
+// }
+
+
 const config = {
     type: Phaser.AUTO,
-    width: 1000,
-    height: 800,
+    mode: Phaser.Scale.RESIZE,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    width: (window.innerWidth * window.devicePixelRatio),
+    height: (window.innerHeight * window.devicePixelRatio),
     parent: 'phaser-hook',
     physics: {
         default: 'arcade',

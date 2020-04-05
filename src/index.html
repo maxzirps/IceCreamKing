@@ -7,46 +7,7 @@
         <meta charset="utf-8" />
     </head>
     <body>
-        <div id="site-wrapper">
-            <div id="header">🍨 Ice cream king 👑</div>
-
             <noscript>Not javascript enabled &#128542;</noscript>
             <div id="phaser-hook"></div>
-            <div id="about"><button id="about-button">About</button></div>
-            <dialog id="about-dialog">
-                Made by Maximilian Zirps
-                <a href="https://github.com/zirmax/"
-                    ><img src="./images/github.png"
-                /></a>
-                <br />
-                Sources:
-                <ul>
-                    <li>https://opengameart.org/content/sky-backdrop</li>
-                    <li>
-                        https://opengameart.org/content/handpainted-platform-tileset
-                    </li>
-                    <li>
-                        https://opengameart.org/content/bevouliin-free-game-sprites-crocodile-mascot-running-and-jumping-boy-game-character
-                    </li>
-                    <li>https://www.1001fonts.com/penguin-attack-font.html</li>
-                </ul>
-                <button id="close-button">Close</button>
-            </dialog>
-        </div>
-        <script>
-            document
-                .getElementById('about-button')
-                .addEventListener('click', () => {
-                    const dialog = document.getElementById('about-dialog')
-                    dialog.setAttribute('open', 'open')
-                })
-
-            document
-                .getElementById('close-button')
-                .addEventListener('click', () => {
-                    const dialog = document.getElementById('about-dialog')
-                    dialog.removeAttribute('open')
-                })
-        </script>
     </body>
 </html>
