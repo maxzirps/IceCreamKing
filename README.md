@@ -15,10 +15,6 @@ A simple game done in phaser, where you play a little boy who wants to catch as 
 * Highscores
 * Bad objects which need to be evaded
 
-
-## License
-GPLv3
-
 ## Credits
 [Sky](https://opengameart.org/content/sky-backdrop)
 [Ground](http://www.ludicarts.com/free-game-platform-tileset/)

@@ -4,7 +4,7 @@
   "description": "Simple phaser pwa game",
   "repository": "git@github.com:zirmax/IceCreamKing.git",
   "author": "Maximilian Zirps <maximilian.zirps@gmail.com>",
-  "license": "GPLv3",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "start": "http-server src",
