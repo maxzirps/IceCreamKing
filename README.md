@@ -8,6 +8,7 @@ A simple game done in phaser, where you play a little boy who wants to catch as 
 
 * split game.js using webpack
 * Resize on orientation change
+* Add enemy cpu
 * PWA
 * Multiple ice cream colors
 * Game Menu
@@ -16,4 +17,4 @@ A simple game done in phaser, where you play a little boy who wants to catch as 
 * Multiplayer
 
 ## Credits
-[Tiles](http://www.ludicarts.com/free-game-platform-tileset/)
+[Assets](https://opengameart.org/users/buch)    

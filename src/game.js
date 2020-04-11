@@ -16,13 +16,10 @@ function removeIceCream(platform, iceCream) {
 }
 
 function preload() {
-    // this.textures.remove('king')
     this.load.image('background', 'assets/background.png');
-    this.load.image('dandelion', 'assets/dandelion.png');
-    this.load.image('weed', 'assets/weed.png');
     this.load.image('ground', 'assets/ground.png');
     this.load.image('ice-cream', 'assets/ice-cream.png')
-    this.load.spritesheet('king', 'assets/king.png', { frameWidth: 240, frameHeight: 420 });
+    this.load.spritesheet('king', 'assets/king.png', { frameWidth: 736/23, frameHeight: 23 });
 }
 
 function create() {
@@ -39,8 +36,6 @@ function create() {
 
     }
 
-    // this.add.image(this.game.scale.width / 1.2, 0-128, 'weed')
-    // this.add.image(this.game.scale.width / 4.2, 0-128, 'dandelion')
 
 
     const iceCreams = this.physics.add.group();
@@ -57,7 +52,7 @@ function create() {
 
     this.physics.add.collider(platforms, iceCreams, removeIceCream, null, this);
     const kingIMG = this.textures.get("king").getSourceImage()
-    player = this.physics.add.sprite(100,this.game.scale.height-(ground.height) - kingIMG.height/2, 'king')
+    player = this.physics.add.sprite(100,this.game.scale.height-(ground.height) - kingIMG.height*5/2, 'king').setScale(5)
     this.physics.add.collider(player, platforms);
 
     player.setBounce(0.2);
@@ -65,7 +60,7 @@ function create() {
 
     this.anims.create({
         key: 'left',
-        frames: this.anims.generateFrameNumbers('king', { start: 1, end: 3 }),
+        frames: this.anims.generateFrameNumbers('king', { start: 14, end: 17 }),
         frameRate: 10,
         repeat: -1
     });
@@ -78,7 +73,7 @@ function create() {
 
     this.anims.create({
         key: 'right',
-        frames: this.anims.generateFrameNumbers('king', { start: 1, end: 3 }),
+        frames: this.anims.generateFrameNumbers('king', { start: 14, end: 17 }),
         frameRate: 10,
         repeat: -1,
     });
