@@ -6,7 +6,6 @@ A simple game done in phaser, where you play a little boy who wants to catch as 
 
 ## TODO
 
-* Mobile support
 * split game.js using webpack
 * Resize on orientation change
 * PWA
