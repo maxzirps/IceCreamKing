@@ -26,8 +26,6 @@ function preload() {
 }
 
 function create() {
-    const scaleRatio = window.devicePixelRatio / 2;
-    const floorHeight = this.game.scale.height
     const image = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'background')
     const scaleX = this.cameras.main.width / image.width
     const scaleY = this.cameras.main.height / image.height
@@ -35,13 +33,14 @@ function create() {
     image.setScale(scale).setScrollFactor(0)
 
     const platforms = this.physics.add.staticGroup();
-    const realPlatformWidth = 213 * scaleRatio;
-    const realPlatformHeight = 128 * scaleRatio;
-    for (let i = 0; (i - 1) * realPlatformWidth < window.innerWidth; i += 1) {
-    platforms.create(realPlatformWidth * i, floorHeight - realPlatformHeight/2, 'ground').setScale(scaleRatio).refreshBody();
+    const ground = this.textures.get("ground").getSourceImage()
+    for (let i = 0; ground.width * i < this.game.scale.width+ground.width; i+=1){
+        platforms.create(i * ground.width, this.game.scale.height-(ground.height/2), 'ground')
+
     }
-    this.add.image(this.game.scale.width / 1.2, floorHeight-128, 'weed').setScale(scaleRatio)
-    this.add.image(this.game.scale.width / 4.2, floorHeight-128, 'dandelion').setScale(scaleRatio)
+
+    // this.add.image(this.game.scale.width / 1.2, 0-128, 'weed')
+    // this.add.image(this.game.scale.width / 4.2, 0-128, 'dandelion')
 
 
     const iceCreams = this.physics.add.group();
@@ -51,15 +50,14 @@ function create() {
         callback: () => {
             const rand = Math.random() * (window.innerWidth);
 
-            iceCreams.create(rand, 0, 'ice-cream').setScale(scaleRatio);
+            iceCreams.create(rand, 0, 'ice-cream')
         },
         loop: true
     })
 
     this.physics.add.collider(platforms, iceCreams, removeIceCream, null, this);
-
-
-    player = this.physics.add.sprite(100, floorHeight-180, 'king').setScale(scaleRatio*0.8);
+    const kingIMG = this.textures.get("king").getSourceImage()
+    player = this.physics.add.sprite(100,this.game.scale.height-(ground.height) - kingIMG.height/2, 'king')
     this.physics.add.collider(player, platforms);
 
     player.setBounce(0.2);
@@ -87,13 +85,12 @@ function create() {
     this.physics.add.overlap(player, iceCreams, collectIceCream, null, this);
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
-    // this.scale.on('resize', resize, this);
 }
 
 function update() {
     const cursors = this.input.keyboard.createCursorKeys();
     const pointer = this.input.activePointer;
-    const velocity = Math.max(150, window.innerWidth / 7)
+    const velocity = Math.max(150, window.innerWidth / 5)
     let mobileTouchPosition = ""
     if (pointer.isDown) {
         const touchX = pointer.x;
@@ -126,29 +123,24 @@ function update() {
 
 }
 
-// function resize(gameSize, baseSize, displaySize, resolution) {
-//     const { width } = gameSize;
-//     const { height } = gameSize;
 
-//     this.cameras.resize(width, height);
 
-//     this.bg.setSize(width, height);
-//     this.logo.setPosition(width / 2, height / 2);
-// }
 
 
 const config = {
     type: Phaser.AUTO,
-    mode: Phaser.Scale.RESIZE,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: (window.innerWidth * window.devicePixelRatio),
-    height: (window.innerHeight * window.devicePixelRatio),
-    parent: 'phaser-hook',
+    scale: {
+        mode: Phaser.Scale.FIT,
+        parent: 'phaser-hook',
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: window.innerWidth* window.devicePixelRatio,
+        height: window.innerHeight* window.devicePixelRatio
+    },
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: false
+            debug: true
         }
     },
     scene: {
@@ -157,5 +149,7 @@ const config = {
         update
     }
 };
+
+
 
 const game = new Phaser.Game(config);

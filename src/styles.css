@@ -1,16 +1,6 @@
-@font-face {
-    font-family: actionj;
-    src: url('./fonts/actionj.ttf');
-}
-
-#header {
-    font-size: 4em;
-    font-family: 'actionj';
-    text-align: center;
-}
-
 #phaser-hook {
     max-height: 100%;
+    max-width: 100%;
     position: fixed;
     top: 0;
     left: 0;
