@@ -1,8 +1,8 @@
 import Phaser from "phaser"
-import Bootloader from "./scenes/boot-loader"
-import MainGame from "./scenes/main-game"
+import BootScene from "./scenes/BootScene"
+import GameScene from "./scenes/GameScene"
 import "../styles.css"
-import PlayerPlugin from "./objects/player";
+import "../favicon.ico"
 
 
 
@@ -16,11 +16,7 @@ const config = {
         height: window.innerHeight * window.devicePixelRatio
     },
     pixelArt: true,
-    plugins: {
-        global: [
-            { key: 'PlayerPlugin', plugin: PlayerPlugin }
-        ]
-    },
+    roundPixels: true,
     physics: {
         default: 'arcade',
         arcade: {
@@ -28,7 +24,7 @@ const config = {
             debug: false
         }
     },
-    scene: [Bootloader, MainGame]
+    scene: [BootScene, GameScene]
 };
 
 
