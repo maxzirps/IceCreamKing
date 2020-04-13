@@ -14,4 +14,5 @@ A simple game done in phaser, where you play a little boy who wants to catch as 
 * Multiplayer
 
 ## Credits
-[Assets](https://opengameart.org/users/buch)    
+[Assets](https://opengameart.org/users/buch)    \
+[Boilerplate](https://github.com/lean/phaser-es6-webpack)
