@@ -16,6 +16,7 @@ function removeIceCream(platform, iceCream) {
 }
 
 function preload() {
+    this.textures.remove("king")
     this.load.image('background', 'assets/background.png');
     this.load.image('ground', 'assets/ground.png');
     this.load.image('ice-cream', 'assets/ice-cream.png')
@@ -86,10 +87,11 @@ function update() {
     const cursors = this.input.keyboard.createCursorKeys();
     const pointer = this.input.activePointer;
     const velocity = Math.max(150, window.innerWidth / 5)
+    const center = window.innerWidth* window.devicePixelRatio / 2
     let mobileTouchPosition = ""
     if (pointer.isDown) {
         const touchX = pointer.x;
-        if (touchX > 500) {
+        if (touchX > center) {
             mobileTouchPosition = "right"
         } else {
             mobileTouchPosition = "left"
